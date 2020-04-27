@@ -29,17 +29,6 @@ public class NewsStory {
     public NewsStory(){
     }
 
-    public NewsStory(int id, String type, String author, int time, String text, String url, int score, String title) {
-        this.id = id;
-        this.type = type;
-        this.author = author;
-        this.time = time;
-        this.text = text;
-        this.url = url;
-        this.score = score;
-        this.title = title;
-    }
-
     public int getId() {
         return id;
     }

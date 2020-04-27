@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.newsreader.utils.DateTimeUtils;
+
 import java.util.List;
 
 public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerViewAdapter.ViewHolder> {
@@ -38,12 +40,11 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
         TextView newsTitleTextView = holder.newsTitleTextView;
         TextView newsAuthorTextView = holder.newsAuthorTextView;
         TextView newsTimeTextView = holder.newsTimeTextView;
-        TextView newsScoreTextView = holder.newsScoreTextView;
 
         newsTitleTextView.setText(newsStory.getTitle());
         newsAuthorTextView.setText(newsStory.getAuthor());
-        newsTimeTextView.setText(String.valueOf(newsStory.getTime()));
-        newsScoreTextView.setText(String.valueOf(newsStory.getScore()));
+        String dateTime = DateTimeUtils.convertUnixTimeToString(newsStory.getTime());
+        newsTimeTextView.setText(dateTime);
     }
 
     @Override
@@ -77,8 +78,6 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
             newsTitleTextView = itemView.findViewById(R.id.news_title_text_view);
             newsAuthorTextView = itemView.findViewById(R.id.news_author_text_view);
             newsTimeTextView = itemView.findViewById(R.id.news_time_text_view);
-            newsScoreTextView = itemView.findViewById(R.id.news_score_text_view);
-
         }
 
         @Override
