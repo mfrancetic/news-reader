@@ -10,53 +10,75 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.newsreader.utils.Constants;
+import com.example.newsreader.utils.NewsService;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MainActivity extends AppCompatActivity {
 
-    private List<NewsStory> newsStoryList;
+    private NewsService newsService;
+    private List<NewsStory> newsStories = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        addNewsStoryList();
-        setupRecyclerView();
+        generateApiTopStoriesCall();
     }
 
-    private void addNewsStoryList() {
-        newsStoryList = new ArrayList<>();
+    private void generateApiTopStoriesCall() {
+        newsService = RetrofitClientInstance.getRetrofitInstance().create(NewsService.class);
+        Call<List<Integer>> newsStoryCalls = newsService.topNewsStoriesIds();
 
-        List<Integer> kids = new ArrayList<>();
-        kids.add(3131);
-        kids.add(131);
-        kids.add(242);
+        newsStoryCalls.enqueue(new Callback<List<Integer>>() {
+            @Override
+            public void onResponse(Call<List<Integer>> call, Response<List<Integer>> response) {
+                getNewsStories(response.body());
+            }
 
-        List<Integer> parts = new ArrayList<>();
-        parts.add(311);
-        parts.add(11);
-        parts.add(42);
+            @Override
+            public void onFailure(Call<List<Integer>> call, Throwable t) {
+                Toast.makeText(MainActivity.this, getString(R.string.something_went_wrong),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
-        NewsStory newsStory = new NewsStory(8863, false, "story", "Maja Francetic", 1175714200, "Story Text", false, 13553,
-                160704, kids, "https://eloquentjavascript.net/", 5, "My YC app: Dropbox - Throw away your USB drive",
-                parts, 10);
-        NewsStory newsStory2 = new NewsStory(8864, false, "story", "Marko Viskanic", 1175714201, "Story Text", false, 13543,
-                160703, kids, "https://github.com/gigamonkey/monorepoize", 5, "My YC app: Dropbox - Throw away your USB drive",
-                parts, 10);
+    private void getNewsStories(List<Integer> newsStoryIds) {
+        newsService = RetrofitClientInstance.getRetrofitInstance().create(NewsService.class);
+        for (int i = 0; i < 20; i++) {
+            Call<NewsStory> newsStoryCall = newsService.storyDetails(newsStoryIds.get(i));
 
-        newsStoryList.add(newsStory);
-        newsStoryList.add(newsStory2);
+            newsStoryCall.enqueue(new Callback<NewsStory>() {
+                @Override
+                public void onResponse(Call<NewsStory> call, Response<NewsStory> response) {
+                    newsStories.add(response.body());
+                }
+
+                @Override
+                public void onFailure(Call<NewsStory> call, Throwable t) {
+                    Toast.makeText(MainActivity.this, getString(R.string.something_went_wrong),
+                            Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+        setupRecyclerView();
     }
 
     private void setupRecyclerView() {
         RecyclerView mainRecyclerView = findViewById(R.id.main_recycler_view);
-        NewsRecyclerViewAdapter adapter = new NewsRecyclerViewAdapter(newsStoryList, new NewsRecyclerViewAdapter.RecyclerViewClickListener() {
+        NewsRecyclerViewAdapter adapter = new NewsRecyclerViewAdapter(newsStories, new NewsRecyclerViewAdapter.RecyclerViewClickListener() {
             @Override
             public void onClick(View view, int position) {
                 Intent openDetailActivityIntent = new Intent(MainActivity.this, NewsStoryDetailActivity.class);
-                openDetailActivityIntent.putExtra(Constants.NEWS_STORY_URL_KEY, newsStoryList.get(position).getUrl());
+                openDetailActivityIntent.putExtra(Constants.NEWS_STORY_URL_KEY, newsStories.get(position).getUrl());
                 startActivity(openDetailActivityIntent);
             }
         });

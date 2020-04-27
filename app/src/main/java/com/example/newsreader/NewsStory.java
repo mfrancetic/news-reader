@@ -1,44 +1,38 @@
 package com.example.newsreader;
 
-import java.util.List;
+import com.google.gson.annotations.SerializedName;
 
 public class NewsStory {
 
+    @SerializedName("id")
     private int id;
-    private boolean deleted;
+    @SerializedName("type")
     private String type;
+    @SerializedName("by")
     private String by;
+    @SerializedName("time")
     private int time;
+    @SerializedName("text")
     private String text;
-    private boolean dead;
-    private int parent;
-    private int poll;
-    private List<Integer> commentsList;
+    @SerializedName("url")
     private String url;
+    @SerializedName("score")
     private int score;
+    @SerializedName("title")
     private String title;
-    private List<Integer> partsList;
-    private int commentCount;
 
     public NewsStory(){
     }
 
-    public NewsStory(int id, boolean deleted, String type, String by, int time, String text, boolean dead, int parent, int poll, List<Integer> commentsList, String url, int score, String title, List<Integer> partsList, int commentCount) {
+    public NewsStory(int id, String type, String by, int time, String text, String url, int score, String title) {
         this.id = id;
-        this.deleted = deleted;
         this.type = type;
         this.by = by;
         this.time = time;
         this.text = text;
-        this.dead = dead;
-        this.parent = parent;
-        this.poll = poll;
-        this.commentsList = commentsList;
         this.url = url;
         this.score = score;
         this.title = title;
-        this.partsList = partsList;
-        this.commentCount = commentCount;
     }
 
     public int getId() {
@@ -47,14 +41,6 @@ public class NewsStory {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
     }
 
     public String getType() {
@@ -81,38 +67,6 @@ public class NewsStory {
         this.text = text;
     }
 
-    public boolean isDead() {
-        return dead;
-    }
-
-    public void setDead(boolean dead) {
-        this.dead = dead;
-    }
-
-    public int getParent() {
-        return parent;
-    }
-
-    public void setParent(int parent) {
-        this.parent = parent;
-    }
-
-    public int getPoll() {
-        return poll;
-    }
-
-    public void setPoll(int poll) {
-        this.poll = poll;
-    }
-
-    public List<Integer> getCommentsList() {
-        return commentsList;
-    }
-
-    public void setCommentsList(List<Integer> commentsList) {
-        this.commentsList = commentsList;
-    }
-
     public String getUrl() {
         return url;
     }
@@ -135,22 +89,6 @@ public class NewsStory {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public List<Integer> getPartsList() {
-        return partsList;
-    }
-
-    public void setPartsList(List<Integer> partsList) {
-        this.partsList = partsList;
-    }
-
-    public int getCommentCount() {
-        return commentCount;
-    }
-
-    public void setCommentCount(int commentCount) {
-        this.commentCount = commentCount;
     }
 
     public String getBy() {
