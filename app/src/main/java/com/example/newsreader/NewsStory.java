@@ -1,15 +1,20 @@
 package com.example.newsreader;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
+@Entity(tableName = "newsstory")
 public class NewsStory {
 
     @SerializedName("id")
+    @PrimaryKey
     private int id;
     @SerializedName("type")
     private String type;
     @SerializedName("by")
-    private String by;
+    private String author;
     @SerializedName("time")
     private int time;
     @SerializedName("text")
@@ -24,10 +29,10 @@ public class NewsStory {
     public NewsStory(){
     }
 
-    public NewsStory(int id, String type, String by, int time, String text, String url, int score, String title) {
+    public NewsStory(int id, String type, String author, int time, String text, String url, int score, String title) {
         this.id = id;
         this.type = type;
-        this.by = by;
+        this.author = author;
         this.time = time;
         this.text = text;
         this.url = url;
@@ -91,11 +96,11 @@ public class NewsStory {
         this.title = title;
     }
 
-    public String getBy() {
-        return by;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setBy(String by) {
-        this.by = by;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }

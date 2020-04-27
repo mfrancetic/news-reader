@@ -4,4 +4,6 @@ public class Constants {
 
     public static final String NEWS_STORY_URL_KEY = "newsStoryUrl";
     public static final String NEWS_BASE_URL = "https://hacker-news.firebaseio.com/v0/";
+    public static final String DATABASE_NAME = "newsStoriesDatabase";
+    public static final String NEWS_STORIES_TABLE_NAME = "newsstories";
 }

@@ -9,7 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerViewAdapter.ViewHolder> {
@@ -42,7 +41,7 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
         TextView newsScoreTextView = holder.newsScoreTextView;
 
         newsTitleTextView.setText(newsStory.getTitle());
-        newsAuthorTextView.setText(newsStory.getBy());
+        newsAuthorTextView.setText(newsStory.getAuthor());
         newsTimeTextView.setText(String.valueOf(newsStory.getTime()));
         newsScoreTextView.setText(String.valueOf(newsStory.getScore()));
     }
