@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -39,10 +40,10 @@ public class MainActivity extends AppCompatActivity {
         parts.add(42);
 
         NewsStory newsStory = new NewsStory(8863, false, "story", "Maja Francetic", 1175714200, "Story Text", false, 13553,
-                160704, kids, "http://www.getdropbox.com/u/2/screencast.html", 5, "My YC app: Dropbox - Throw away your USB drive",
+                160704, kids, "https://eloquentjavascript.net/", 5, "My YC app: Dropbox - Throw away your USB drive",
                 parts, 10);
         NewsStory newsStory2 = new NewsStory(8864, false, "story", "Marko Viskanic", 1175714201, "Story Text", false, 13543,
-                160703, kids, "http://www.getdropbox.com/u/2/screencast.html", 5, "My YC app: Dropbox - Throw away your USB drive",
+                160703, kids, "https://github.com/gigamonkey/monorepoize", 5, "My YC app: Dropbox - Throw away your USB drive",
                 parts, 10);
 
         newsStoryList.add(newsStory);
@@ -54,7 +55,9 @@ public class MainActivity extends AppCompatActivity {
         NewsRecyclerViewAdapter adapter = new NewsRecyclerViewAdapter(newsStoryList, new NewsRecyclerViewAdapter.RecyclerViewClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Toast.makeText(MainActivity.this, "Position clicked: "+ position, Toast.LENGTH_LONG).show();
+                Intent openDetailActivityIntent = new Intent(MainActivity.this, NewsStoryDetailActivity.class);
+                openDetailActivityIntent.putExtra(Constants.NEWS_STORY_URL_KEY, newsStoryList.get(position).getUrl());
+                startActivity(openDetailActivityIntent);
             }
         });
         mainRecyclerView.setAdapter(adapter);
