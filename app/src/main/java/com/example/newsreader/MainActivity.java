@@ -137,8 +137,11 @@ public class MainActivity extends AppCompatActivity {
         adapter = new NewsRecyclerViewAdapter(newsStories, new NewsRecyclerViewAdapter.RecyclerViewClickListener() {
             @Override
             public void onClick(View view, int position) {
+                NewsStory story = newsStories.get(position);
                 Intent openDetailActivityIntent = new Intent(MainActivity.this, NewsStoryDetailActivity.class);
-                openDetailActivityIntent.putExtra(Constants.NEWS_STORY_URL_KEY, newsStories.get(position).getUrl());
+                openDetailActivityIntent.putExtra(Constants.NEWS_STORY_URL_KEY, story.getUrl());
+                openDetailActivityIntent.putExtra(Constants.NEWS_STORY_TITLE_KEY, story.getTitle());
+                openDetailActivityIntent.putExtra(Constants.NEWS_STORY_TEXT_KEY, story.getText());
                 startActivity(openDetailActivityIntent);
             }
         });

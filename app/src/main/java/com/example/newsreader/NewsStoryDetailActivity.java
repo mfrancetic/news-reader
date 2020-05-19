@@ -16,6 +16,7 @@ public class NewsStoryDetailActivity extends AppCompatActivity {
 
     private String newsStoryItemUrl;
     private String newsStoryItemText;
+    private String newsStoryItemTitle;
     private TextView newsStoryTextView;
     private ProgressBar loadingIndicator;
     private TextView detailEmptyTextView;
@@ -34,7 +35,12 @@ public class NewsStoryDetailActivity extends AppCompatActivity {
         Intent mainActivityIntent = getIntent();
         if (mainActivityIntent != null) {
             newsStoryItemUrl = mainActivityIntent.getStringExtra(Constants.NEWS_STORY_URL_KEY);
-            newsStoryItemText = mainActivityIntent.getStringExtra(Constants.NEWS_STORY_TITLE_KEY);
+            newsStoryItemTitle = mainActivityIntent.getStringExtra(Constants.NEWS_STORY_TITLE_KEY);
+            newsStoryItemText = mainActivityIntent.getStringExtra(Constants.NEWS_STORY_TEXT_KEY);
+        }
+
+        if (newsStoryItemTitle != null) {
+            setTitle(newsStoryItemTitle);
         }
 
         if (newsStoryItemUrl != null) {
