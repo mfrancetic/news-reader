@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar loadingIndicator;
     private TextView mainEmptyTextView;
     private RecyclerView mainRecyclerView;
+    private NewsRecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         setupLoadingView();
+        setupRecyclerView();
 
         getNewsStoriesFromDatabase();
         generateApiTopStoriesCall();
@@ -84,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<NewsStory> call, Response<NewsStory> response) {
                         newsStories.add(response.body());
+                        adapter.notifyDataSetChanged();
+                        removeEmptyView();
                     }
 
                     @Override
@@ -94,7 +98,11 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         }
-        setupRecyclerView();
+    }
+
+    private void removeEmptyView() {
+        mainEmptyTextView.setVisibility(View.GONE);
+        mainRecyclerView.setVisibility(View.VISIBLE);
     }
 
     private void addNewsStoriesToDatabase(List<NewsStory> newsStories) {
@@ -123,21 +131,22 @@ public class MainActivity extends AppCompatActivity {
         if (newsStories.isEmpty()) {
             setEmptyView();
         } else {
-            mainRecyclerView.setVisibility(View.VISIBLE);
-            NewsRecyclerViewAdapter adapter = new NewsRecyclerViewAdapter(newsStories, new NewsRecyclerViewAdapter.RecyclerViewClickListener() {
-                @Override
-                public void onClick(View view, int position) {
-                    Intent openDetailActivityIntent = new Intent(MainActivity.this, NewsStoryDetailActivity.class);
-                    openDetailActivityIntent.putExtra(Constants.NEWS_STORY_URL_KEY, newsStories.get(position).getUrl());
-                    startActivity(openDetailActivityIntent);
-                }
-            });
-            mainRecyclerView.setAdapter(adapter);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-            mainRecyclerView.setLayoutManager(layoutManager);
-            DividerItemDecoration decoration = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
-            mainRecyclerView.addItemDecoration(decoration);
+            removeEmptyView();
         }
+
+        adapter = new NewsRecyclerViewAdapter(newsStories, new NewsRecyclerViewAdapter.RecyclerViewClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Intent openDetailActivityIntent = new Intent(MainActivity.this, NewsStoryDetailActivity.class);
+                openDetailActivityIntent.putExtra(Constants.NEWS_STORY_URL_KEY, newsStories.get(position).getUrl());
+                startActivity(openDetailActivityIntent);
+            }
+        });
+        mainRecyclerView.setAdapter(adapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        mainRecyclerView.setLayoutManager(layoutManager);
+        DividerItemDecoration decoration = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
+        mainRecyclerView.addItemDecoration(decoration);
     }
 
     private void setEmptyView() {
